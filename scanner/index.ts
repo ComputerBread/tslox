@@ -67,9 +67,6 @@ class Scanner {
             case ';':
                 this.addToken(TokenType.SEMICOLON);
                 break;
-            case '/':
-                this.addToken(TokenType.SLASH);
-                break;
             case '*':
                 this.addToken(TokenType.STAR);
                 break;
@@ -105,6 +102,20 @@ class Scanner {
                 this.addToken(this.match('=') ? TokenType.GREATER_EQUAL : TokenType.GREATER);
                 break;
             case '/':
+                if (this.match('/')) { // single line comment
+                    while (this.peek() != '\n' && !this.isAtEnd()) {
+                        this.advance();
+                    }
+                } else if (this.match('*')) {
+                    while (this.peek() != '*' && this.peekNext() != '/' && !this.isAtEnd()) {
+                        this.advance();
+                    }
+
+                    this.advance(); // removes '*'
+                    this.advance(); // removes '/'
+                } else {
+                    this.addToken(TokenType.SLASH);
+                }
                 break;
         }
     }
@@ -131,5 +142,17 @@ class Scanner {
         this.current++;
         return true;
     }
+
+    peek() {
+        if (this.isAtEnd()) return '\0';
+        return this.src.charAt(this.current);
+    }
+
+    peekNext() {
+        let nextPos = this.current + 1;
+        if (nextPos >= this.src.length) return '\0';
+        return this.src.charAt(this.current + 1);
+    }
+
 
 }
