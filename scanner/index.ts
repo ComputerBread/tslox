@@ -72,6 +72,11 @@ class Scanner {
                 this.addToken(TokenType.STAR, char);
                 break;
 
+            // we ignore whitespace
+            case ' ':
+            case '\t':
+            case '\r':
+                break;
             // multicharaters
         }
     }
