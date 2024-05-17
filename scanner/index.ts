@@ -107,4 +107,18 @@ class Scanner {
         this.tokens.push(new Token(type, lexeme, null, this.line));
     }
 
+    /* Check if the next character (at position current) matches "expect"
+       if it matches it advances.
+    */
+    match(expect: string) {
+        if (this.isAtEnd()) return false;
+
+        if (expect !== this.src.charAt(this.current)) {
+            return false;
+        }
+
+        this.current++;
+        return true;
+    }
+
 }
