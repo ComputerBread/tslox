@@ -40,31 +40,37 @@ class Scanner {
             // single character
             case '(':
                 this.addToken(TokenType.LEFT_PAREN, char);
+                break;
             case ')':
-                return this.addToken(TokenType.RIGHT_PAREN, char);
+                this.addToken(TokenType.RIGHT_PAREN, char);
+                break;
             case '{':
-                return this.addToken(TokenType.LEFT_BRACE, char);
+                this.addToken(TokenType.LEFT_BRACE, char);
+                break;
             case '}':
-                return this.addToken(TokenType.RIGHT_BRACE, char);
+                this.addToken(TokenType.RIGHT_BRACE, char);
+                break;
             case ',':
-                return this.addToken(TokenType.COMMA, char);
+                this.addToken(TokenType.COMMA, char);
+                break;
             case '.':
-                return this.addToken(TokenType.DOT, char);
+                this.addToken(TokenType.DOT, char);
+                break;
             case '-':
-                return this.addToken(TokenType.MINUS, char);
+                this.addToken(TokenType.MINUS, char);
+                break;
             case '+':
-                return this.addToken(TokenType.PLUS, char);
+                this.addToken(TokenType.PLUS, char);
+                break;
             case ';':
-                return this.addToken(TokenType.SEMICOLON, char);
+                this.addToken(TokenType.SEMICOLON, char);
+                break;
             case '/':
-                return this.addToken(TokenType.SLASH, char);
+                this.addToken(TokenType.SLASH, char);
+                break;
             case '*':
-                return new Token(TokenType.STAR, char, null, this.line);
-
-            /*
-            case '':
-                return new Token(TokenType., char, null, this.line);
-            */
+                this.addToken(TokenType.STAR, char);
+                break;
 
             // multicharaters
         }
