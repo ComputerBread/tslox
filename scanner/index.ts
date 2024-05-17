@@ -87,6 +87,11 @@ class Scanner {
 
             // one or two characters
             case '!':
+                if (this.match('=')) {
+                    this.addToken(TokenType.BANG_EQUAL, char);
+                } else {
+                    this.addToken(TokenType.BANG, char);
+                }
                 break;
             case '=':
                 break;
