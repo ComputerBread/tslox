@@ -84,6 +84,18 @@ class Scanner {
                 break;
 
             // multicharaters
+
+            // one or two characters
+            case '!':
+                break;
+            case '=':
+                break;
+            case '<':
+                break;
+            case '>':
+                break;
+            case '/':
+                break;
         }
     }
 
