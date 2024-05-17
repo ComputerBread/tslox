@@ -13,9 +13,10 @@ import { TokenType } from "./TokenType";
 class Scanner {
 
     tokens: Token[] = [];
-    current = 0; // current position in the src code
-    line = 1; // current line number in src code
+    current: number = 0; // current position in the src code
+    line: number = 1; // current line number in src code
     src: string; // source code
+    start: number = 0;
 
     constructor(src: string) {
         this.src = src;
@@ -27,6 +28,7 @@ class Scanner {
 
     scan() {
         while (!this.isAtEnd()) {
+            this.start = this.current;
             this.scanToken();
         }
         this.tokens.push(new Token(TokenType.EOF, "", null, this.line));
@@ -39,37 +41,37 @@ class Scanner {
         switch (char) {
             // single character
             case '(':
-                this.addToken(TokenType.LEFT_PAREN, char);
+                this.addToken(TokenType.LEFT_PAREN);
                 break;
             case ')':
-                this.addToken(TokenType.RIGHT_PAREN, char);
+                this.addToken(TokenType.RIGHT_PAREN);
                 break;
             case '{':
-                this.addToken(TokenType.LEFT_BRACE, char);
+                this.addToken(TokenType.LEFT_BRACE);
                 break;
             case '}':
-                this.addToken(TokenType.RIGHT_BRACE, char);
+                this.addToken(TokenType.RIGHT_BRACE);
                 break;
             case ',':
-                this.addToken(TokenType.COMMA, char);
+                this.addToken(TokenType.COMMA);
                 break;
             case '.':
-                this.addToken(TokenType.DOT, char);
+                this.addToken(TokenType.DOT);
                 break;
             case '-':
-                this.addToken(TokenType.MINUS, char);
+                this.addToken(TokenType.MINUS);
                 break;
             case '+':
-                this.addToken(TokenType.PLUS, char);
+                this.addToken(TokenType.PLUS);
                 break;
             case ';':
-                this.addToken(TokenType.SEMICOLON, char);
+                this.addToken(TokenType.SEMICOLON);
                 break;
             case '/':
-                this.addToken(TokenType.SLASH, char);
+                this.addToken(TokenType.SLASH);
                 break;
             case '*':
-                this.addToken(TokenType.STAR, char);
+                this.addToken(TokenType.STAR);
                 break;
 
             // we ignore whitespace
@@ -88,9 +90,9 @@ class Scanner {
             // one or two characters
             case '!':
                 if (this.match('=')) {
-                    this.addToken(TokenType.BANG_EQUAL, char);
+                    this.addToken(TokenType.BANG_EQUAL);
                 } else {
-                    this.addToken(TokenType.BANG, char);
+                    this.addToken(TokenType.BANG);
                 }
                 break;
             case '=':
@@ -108,7 +110,8 @@ class Scanner {
         return this.src.charAt(this.current++);
     }
 
-    addToken(type: TokenType, lexeme: string) {
+    addToken(type: TokenType) {
+        const lexeme = this.src.slice(this.start, this.current);
         this.tokens.push(new Token(type, lexeme, null, this.line));
     }
 
