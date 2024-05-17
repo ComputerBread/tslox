@@ -1,3 +1,4 @@
+import { TsLoxUtils } from "../tslox";
 import { Token } from "./Token";
 import { TokenType } from "./TokenType";
 
@@ -107,8 +108,13 @@ class Scanner {
                         this.advance();
                     }
                 } else if (this.match('*')) {
+                    const startingLine = this.line;
                     while (this.peek() != '*' && this.peekNext() != '/' && !this.isAtEnd()) {
                         this.advance();
+                    }
+
+                    if (this.isAtEnd()) {
+                        TsLoxUtils.simpleError(startingLine, "You forgot to end your comment bozo");
                     }
 
                     this.advance(); // removes '*'
