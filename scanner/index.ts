@@ -77,6 +77,12 @@ class Scanner {
             case '\t':
             case '\r':
                 break;
+
+            // for newlines we need to increment the line number
+            case '\n':
+                this.line++;
+                break;
+
             // multicharaters
         }
     }
