@@ -19,6 +19,22 @@ class Scanner {
     src: string; // source code
     start: number = 0;
 
+    keywords: Map<string, TokenType> = new Map<string, TokenType>([
+        ["and", TokenType.AND],
+        ["else", TokenType.ELSE],
+        ["false", TokenType.FALSE],
+        ["for", TokenType.FOR],
+        ["fun", TokenType.FUN],
+        ["if", TokenType.IF],
+        ["nil", TokenType.NIL],
+        ["or", TokenType.OR],
+        ["print", TokenType.PRINT],
+        ["return", TokenType.RETURN],
+        ["true", TokenType.TRUE],
+        ["var", TokenType.VAR],
+        ["while", TokenType.WHILE],
+    ]);
+
     constructor(src: string) {
         this.src = src;
     }
@@ -226,7 +242,12 @@ class Scanner {
         while (this.isAlphaNum(this.peek())) {
             this.advance();
         }
-        this.addToken(TokenType.IDENTIFIER);
+
+        // check if it's a keyword
+        const text = this.src.slice(this.start, this.current);
+        let type = this.keywords.get(text) ?? TokenType.IDENTIFIER;
+
+        this.addToken(type);
     }
 
 }
