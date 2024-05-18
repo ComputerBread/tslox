@@ -149,7 +149,12 @@ class Scanner {
             default: // number, identifier, keywords
                 if (this.isDigit(char)) {
                     this.number();
+                } else if (this.isAlpha(char)) {
+                    this.identifier();
+                } else {
+                    TsLoxUtils.simpleError(this.line, "Unexpected character.");
                 }
+                break;
         }
     }
 
@@ -209,5 +214,19 @@ class Scanner {
         this.addTokenWithValue(TokenType.NUMBER, nb);
     }
 
+    isAlpha(c: string) {
+        return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c === '_';
+    }
+
+    isAlphaNum(c: string) {
+        return this.isAlpha(c) || this.isDigit(c);
+    }
+
+    identifier() {
+        while (this.isAlphaNum(this.peek())) {
+            this.advance();
+        }
+        this.addToken(TokenType.IDENTIFIER);
+    }
 
 }
