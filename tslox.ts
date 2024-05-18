@@ -1,5 +1,6 @@
-import type { Token } from "./scanner/Token";
-import { TokenType } from "./scanner/TokenType";
+import { Scanner } from "./Scanner";
+import type { Token } from "./Scanner/Token";
+import { TokenType } from "./Scanner/TokenType";
 
 let hadError = false;
 
@@ -21,6 +22,10 @@ async function runPrompt() {
 function run(code: string) {
 
   // 1. scan
+  const scanner = new Scanner(code);
+  scanner.scan();
+  console.log(scanner.tokens);
+
   // 2. parse
 
   // sntax error

@@ -11,7 +11,7 @@ import { TokenType } from "./TokenType";
  * ALPHA -> "a" ... "z" | "A" ... "Z" | "_";
  * DIGIT -> "0" ... "9";
  */
-class Scanner {
+export class Scanner {
 
     tokens: Token[] = [];
     current: number = 0; // current position in the src code
@@ -49,7 +49,6 @@ class Scanner {
             this.scanToken();
         }
         this.tokens.push(new Token(TokenType.EOF, "", null, this.line));
-        // todo add EOF token
     }
 
     scanToken() {
