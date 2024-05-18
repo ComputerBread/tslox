@@ -59,12 +59,7 @@ class Scanner {
             case '.':
                 this.addToken(TokenType.DOT);
                 break;
-            case '-':
-                this.addToken(TokenType.MINUS);
-                break;
-            case '+':
-                this.addToken(TokenType.PLUS);
-                break;
+
             case ';':
                 this.addToken(TokenType.SEMICOLON);
                 break;
@@ -86,6 +81,16 @@ class Scanner {
             // multicharaters
 
             // one or two characters
+            case '-':
+                if (this.match("-")) this.addToken(TokenType.MINUS_MINUS);
+                else if (this.match("=")) this.addToken(TokenType.MINUS_EQUAL);
+                else this.addToken(TokenType.MINUS);
+                break;
+            case '+':
+                if (this.match("+")) this.addToken(TokenType.PLUS_PLUS);
+                else if (this.match("=")) this.addToken(TokenType.PLUS_EQUAL);
+                else this.addToken(TokenType.PLUS);
+                break;
             case '!':
                 if (this.match('=')) {
                     this.addToken(TokenType.BANG_EQUAL);
