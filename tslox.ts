@@ -1,6 +1,8 @@
 import type { Token } from "./scanner/Token";
 import { TokenType } from "./scanner/TokenType";
 
+let hadError = false;
+
 function main() {
   runPrompt();
 }
@@ -20,6 +22,9 @@ function run(code: string) {
 
   // 1. scan
   // 2. parse
+
+  // sntax error
+  if (hadError) return;
 
   // check syntax error
 
@@ -49,5 +54,6 @@ export class TsLoxUtils {
 
   static report(line: number, where: string, message: string) {
     console.error(`[line #${line}] Error ${where}: ${message}`);
+    hadError = true;
   }
 }

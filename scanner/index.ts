@@ -120,6 +120,7 @@ class Scanner {
 
                     if (this.isAtEnd()) {
                         TsLoxUtils.simpleError(startingLine, "You forgot to end your comment bozo");
+                        break;
                     }
 
                     this.advance(); // removes '*'
@@ -128,6 +129,23 @@ class Scanner {
                     this.addToken(TokenType.SLASH);
                 }
                 break;
+
+            case '"': // string
+                while (this.peek() != '"' && !this.isAtEnd()) {
+                    if (this.peek() == '\n') this.line++;
+                    this.advance();
+                }
+                if (this.isAtEnd()) {
+                    TsLoxUtils.simpleError(this.line, "You forgot to end your comment bozo");
+                    break;
+                }
+                this.advance() // remove closing '"'
+
+                const value = this.src.slice(this.start + 1, this.current - 1);
+                this.addTokenWithValue(TokenType.STRING, value);
+
+                break;
+
         }
     }
 
@@ -136,8 +154,12 @@ class Scanner {
     }
 
     addToken(type: TokenType) {
+        this.addTokenWithValue(type, null);
+    }
+
+    addTokenWithValue(type: TokenType, literal: any) {
         const lexeme = this.src.slice(this.start, this.current);
-        this.tokens.push(new Token(type, lexeme, null, this.line));
+        this.tokens.push(new Token(type, lexeme, literal, this.line));
     }
 
     /* Check if the next character (at position current) matches "expect"
