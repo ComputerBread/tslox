@@ -146,6 +146,10 @@ class Scanner {
 
                 break;
 
+            default: // number, identifier, keywords
+                if (this.isDigit(char)) {
+                    this.number();
+                }
         }
     }
 
@@ -177,7 +181,7 @@ class Scanner {
     }
 
     peek() {
-        if (this.isAtEnd()) return '\0';
+        if (this.isAtEnd()) return '\0'; // useful, to avoid having to type isAtEnd() in some while loops
         return this.src.charAt(this.current);
     }
 
@@ -185,6 +189,24 @@ class Scanner {
         let nextPos = this.current + 1;
         if (nextPos >= this.src.length) return '\0';
         return this.src.charAt(this.current + 1);
+    }
+
+    isDigit(c: string) {
+        return c >= '0' && c <= '9';
+    }
+
+    number() {
+        while (this.isDigit(this.peek())) { // we don't need  `&& !this.isAtEnd()` peek() will return someting that is not a number
+            this.advance();
+        }
+
+        if (this.peek() === '.') { // jlox has "isDigit(peekNext())" is it really necessary?
+            do this.advance();
+            while (this.isDigit(this.peek()));
+        }
+
+        const nb = Number(this.src.slice(this.start, this.current));
+        this.addTokenWithValue(TokenType.NUMBER, nb);
     }
 
 
